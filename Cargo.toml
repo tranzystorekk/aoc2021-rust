@@ -13,3 +13,4 @@ path = "src/days/d01p1.rs"
 [dependencies]
 aoc-utils = "0.3.0"
 itertools = "0.10.1"
+scan_fmt = "0.2.6"
