@@ -1,3 +1,11 @@
-fn main() -> std::io::Result<()> {
-    Ok(())
+#[anyhoo::anyhoo]
+fn parse_input() {
+
+}
+
+#[anyhoo::anyhoo]
+fn main() {
+    let input = parse_input()?;
+
+
 }
