@@ -11,7 +11,7 @@ name = "d01p1"
 path = "src/days/d01p1.rs"
 
 [dependencies]
-aoc-utils = "0.3.0"
+aoc-utils = "0.4.0"
 elapsed = "0.1.2"
 itertools = "0.10.1"
 scan_fmt = "0.2.6"
