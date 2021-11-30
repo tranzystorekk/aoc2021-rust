@@ -1,3 +1,5 @@
+use aoc_utils::BufferedInput;
+
 #[anyhoo::anyhoo]
 fn parse_input() {
 
