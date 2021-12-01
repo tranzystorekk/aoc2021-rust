@@ -5,7 +5,7 @@ use itertools::Itertools;
 
 #[anyhoo::anyhoo]
 fn parse_input() -> Vec<i32> {
-    let input = BufferedInput::parse_args("")?;
+    let input = BufferedInput::parse_args("Day 1: Sonar Sweep - Part 1")?;
 
     input.lines().map_ok(|l| l.parse().unwrap()).try_collect()?
 }
