@@ -10,6 +10,10 @@ edition = "2021"
 name = "d01p1"
 path = "src/days/d01p1.rs"
 
+[[bin]]
+name = "d01p2"
+path = "src/days/d01p2.rs"
+
 [dependencies]
 anyhoo = { git = "https://github.com/tranzystorek-io/anyhoo", features = ["reexport"] }
 aoc-utils = "0.4.0"
