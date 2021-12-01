@@ -18,7 +18,7 @@ fn main() {
         input
             .into_iter()
             .tuple_windows()
-            .filter(|(a, b)| a < b)
+            .filter(|(prev, curr)| prev < curr)
             .count()
-    })
+    });
 }

@@ -20,7 +20,7 @@ fn main() {
             .tuple_windows()
             .map(|(a, b, c)| a + b + c)
             .tuple_windows()
-            .filter(|(a, b)| a < b)
+            .filter(|(prev, curr)| prev < curr)
             .count()
-    })
+    });
 }
