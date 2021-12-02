@@ -18,9 +18,8 @@ fn main() {
         input
             .into_iter()
             .tuple_windows()
-            .map(|(a, b, c)| a + b + c)
-            .tuple_windows()
-            .filter(|(prev, curr)| prev < curr)
+            // a + b + c < b + c + d => a < d
+            .filter(|(a, _, _, d)| a < d)
             .count()
     });
 }
