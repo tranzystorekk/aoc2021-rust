@@ -26,4 +26,4 @@ path = "src/days/d02p2.rs"
 anyhoo = { git = "https://github.com/tranzystorek-io/anyhoo", features = ["reexport"] }
 aoc-utils = "0.4.1"
 itertools = "0.10.1"
-scan_fmt = "0.2.6"
+scan_fmt = { version = "0.2.6", default-features = false, features = ["std"] }
