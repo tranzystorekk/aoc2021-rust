@@ -37,20 +37,22 @@ fn parse_input() -> (Vec<i32>, Vec<Board>) {
 
 type Board = Array2<(i32, bool)>;
 
-fn mark_board(b: &mut Board, draw: i32) -> Option<i32> {
-    for (n, marked) in b.iter_mut() {
+fn mark_board(board: &mut Board, draw: i32) -> Option<i32> {
+    for (n, marked) in board.iter_mut() {
         if n == &draw {
             *marked = true;
         }
     }
 
     let row_found = || {
-        b.rows()
+        board
+            .rows()
             .into_iter()
             .any(|r| r.iter().all(|(_, marked)| *marked))
     };
     let col_found = || {
-        b.columns()
+        board
+            .columns()
             .into_iter()
             .any(|c| c.iter().all(|(_, marked)| *marked))
     };
@@ -59,9 +61,9 @@ fn mark_board(b: &mut Board, draw: i32) -> Option<i32> {
         return None;
     }
 
-    let lane_sum: i32 = b
+    let lane_sum: i32 = board
         .iter()
-        .filter(|(_, marked)| !*marked)
+        .filter(|(_, marked)| !marked)
         .map(|(n, _)| *n)
         .sum();
     let score = lane_sum * draw;
