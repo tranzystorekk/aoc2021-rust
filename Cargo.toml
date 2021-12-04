@@ -30,8 +30,17 @@ path = "src/days/d03p1.rs"
 name = "d03p2"
 path = "src/days/d03p2.rs"
 
+[[bin]]
+name = "d04p1"
+path = "src/days/d04p1.rs"
+
+[[bin]]
+name = "d04p2"
+path = "src/days/d04p2.rs"
+
 [dependencies]
 anyhoo = { git = "https://github.com/tranzystorek-io/anyhoo", features = ["reexport"] }
 aoc-utils = "0.4.1"
 itertools = "0.10.1"
+ndarray = "0.15.4"
 scan_fmt = { version = "0.2.6", default-features = false, features = ["std"] }
