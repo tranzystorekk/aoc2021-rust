@@ -13,7 +13,6 @@ fn parse_input() -> (Vec<i32>, Vec<Board>) {
         .split(',')
         .map(|n| n.parse().unwrap())
         .collect();
-    lines.next();
 
     let boards = lines.filter(|l| !l.is_empty()).chunks(5);
     let boards = boards
