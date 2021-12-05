@@ -23,13 +23,15 @@ fn parse_input() -> Vec<Line> {
         .try_collect()?
 }
 
+type DynIter<T> = Box<dyn Iterator<Item = T>>;
+
 struct Line {
     start: (i32, i32),
     end: (i32, i32),
 }
 
 impl Line {
-    fn points(&self) -> Box<dyn Iterator<Item = (i32, i32)>> {
+    fn points(&self) -> DynIter<(i32, i32)> {
         let (x1, y1) = self.start;
         let (x2, y2) = self.end;
 
@@ -49,13 +51,13 @@ impl Line {
             return Box::new(it);
         }
 
-        let it_x: Box<dyn Iterator<Item = i32>> = if x1 < x2 {
+        let it_x: DynIter<i32> = if x1 < x2 {
             Box::new(x1..=x2)
         } else {
             Box::new((x2..=x1).rev())
         };
 
-        let it_y: Box<dyn Iterator<Item = i32>> = if y1 < y2 {
+        let it_y: DynIter<i32> = if y1 < y2 {
             Box::new(y1..=y2)
         } else {
             Box::new((y2..=y1).rev())
