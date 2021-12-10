@@ -13,8 +13,8 @@ fn parse_input() -> Vec<String> {
 fn check_corrupted(line: &str) -> Option<u64> {
     let result = line.chars().try_fold(vec![], |mut stack, c| {
         match (c, stack.last()) {
-            (open @ ('(' | '[' | '{' | '<'), _) => {
-                stack.push(open);
+            ('(' | '[' | '{' | '<', _) => {
+                stack.push(c);
             }
             (')', Some(&'(')) | (']', Some(&'[')) | ('}', Some(&'{')) | ('>', Some(&'<')) => {
                 stack.pop();
