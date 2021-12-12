@@ -43,12 +43,11 @@ fn sweep_paths(tunnels: &Tunnels) -> usize {
         }
 
         for neighbor in &tunnels[curr] {
+            let mut new_visited = small_visited.clone();
             if !is_small(neighbor) {
-                searchspace.push((neighbor, small_visited.clone()));
+                searchspace.push((neighbor, new_visited));
                 continue;
             }
-
-            let mut new_visited = small_visited.clone();
 
             if new_visited.insert(neighbor) {
                 searchspace.push((neighbor, new_visited));
