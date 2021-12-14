@@ -5,12 +5,12 @@ use itertools::Itertools;
 use scan_fmt::scan_fmt;
 
 #[anyhoo::anyhoo]
-fn parse_input() -> (Template, PairInserts) {
+fn parse_input() -> (String, PairInserts) {
     let input = BufferedInput::parse_args("Day 14: Extended Polymerization - Part 1")?;
 
     let mut lines = input.unwrapped_lines();
 
-    let template = lines.next().unwrap().into_bytes();
+    let template = lines.next().unwrap();
 
     lines.next();
 
@@ -18,36 +18,39 @@ fn parse_input() -> (Template, PairInserts) {
         .map(|l| {
             let (pair, insert) = scan_fmt!(&l, "{} -> {}", String, char).unwrap();
 
-            let pair = match *pair.as_bytes() {
-                [a, b] => (a, b),
-                _ => unreachable!(),
-            };
+            let pair = pair.chars().collect_tuple().unwrap();
 
-            (pair, insert as u8)
+            (pair, insert)
         })
         .collect();
 
     (template, inserts)
 }
 
-type Template = Vec<u8>;
-type PairInserts = HashMap<(u8, u8), u8>;
+type Pairs = HashMap<(char, char), usize>;
+type Counts = HashMap<char, usize>;
+type PairInserts = HashMap<(char, char), char>;
 
-fn step_polymerize(template: Template, inserts: &PairInserts) -> Template {
-    let inserts = template
-        .iter()
-        .tuple_windows()
-        .map(|(&a, &b)| match inserts.get(&(a, b)) {
-            Some(&el) => el,
-            None => 0,
-        })
-        .collect_vec();
+fn init_auxiliary(sequence: &str) -> (Pairs, Counts) {
+    let pairs = sequence.chars().tuple_windows().counts();
+    let counts = sequence.chars().counts();
 
-    template
+    (pairs, counts)
+}
+
+fn step_polymerize(pairs: Pairs, counts: &mut Counts, inserts: &PairInserts) -> Pairs {
+    pairs
         .into_iter()
-        .interleave(inserts)
-        .filter(|&el| el != 0)
-        .collect()
+        .flat_map(|((a, b), count)| match inserts.get(&(a, b)) {
+            Some(&el) => {
+                *counts.entry(el).or_default() += count;
+
+                vec![((a, el), count), ((el, b), count)]
+            }
+            None => vec![((a, b), count)],
+        })
+        .into_grouping_map()
+        .sum()
 }
 
 #[anyhoo::anyhoo]
@@ -55,9 +58,11 @@ fn main() {
     let (template, inserts) = parse_input()?;
 
     aoc_utils::measure_and_print(|| {
-        let polymerized = (0..10).fold(template, |curr, _| step_polymerize(curr, &inserts));
+        let (pairs, mut counts) = init_auxiliary(&template);
 
-        let counts = polymerized.into_iter().counts();
+        (0..10).fold(pairs, |curr, _| {
+            step_polymerize(curr, &mut counts, &inserts)
+        });
 
         let (min, max) = counts.into_values().minmax().into_option().unwrap();
 
