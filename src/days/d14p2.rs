@@ -41,13 +41,13 @@ fn init_auxiliary(sequence: &str) -> (Pairs, Counts) {
 fn step_polymerize(pairs: Pairs, counts: &mut Counts, inserts: &PairInserts) -> Pairs {
     pairs
         .into_iter()
-        .flat_map(|((a, b), count)| match inserts.get(&(a, b)) {
+        .flat_map(|(pair @ (a, b), count)| match inserts.get(&pair) {
             Some(&el) => {
                 *counts.entry(el).or_default() += count;
 
                 vec![((a, el), count), ((el, b), count)]
             }
-            None => vec![((a, b), count)],
+            None => vec![(pair, count)],
         })
         .into_grouping_map()
         .sum()
