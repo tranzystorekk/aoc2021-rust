@@ -42,11 +42,14 @@ fn init_map(rows: Vec<Vec<u32>>) -> Map {
     let side = rows.len();
     let flat = rows.into_iter().flatten().collect();
 
+    // store the tile in a 2D array
     let mut small_chunk = Array2::from_shape_vec((side, side), flat).unwrap();
 
+    // allocate a 5 times bigger 2D array
     let full_side = 5 * side;
     let mut full = Array2::<u32>::zeros((full_side, full_side));
 
+    // copy tiles into place, applying the "+1 with wrap" transformation
     for chunk_row in &full.exact_chunks_mut((side, side)).into_iter().chunks(5) {
         let mut x = small_chunk.clone();
 
@@ -59,6 +62,7 @@ fn init_map(rows: Vec<Vec<u32>>) -> Map {
         small_chunk.map_inplace(|el| *el = if *el < 9 { *el + 1 } else { 1 });
     }
 
+    // collect the full map into a (coordinate -> risk) HashMap
     full.rows()
         .into_iter()
         .enumerate()
