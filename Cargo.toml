@@ -138,6 +138,10 @@ path = "src/days/d16p1.rs"
 name = "d16p2"
 path = "src/days/d16p2.rs"
 
+[[bin]]
+name = "d21p1"
+path = "src/days/d21p1.rs"
+
 [dependencies]
 anyhoo = { git = "https://github.com/tranzystorek-io/anyhoo", features = ["reexport"] }
 aoc-utils = "0.4.1"
