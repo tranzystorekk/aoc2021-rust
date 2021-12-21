@@ -89,7 +89,7 @@ impl<I: Iterator<Item = u32>> DiracDice<I> {
         *score += *pos + 1;
 
         self.roll_count += 3;
-        
+
         if *score >= 1000 {
             self.game_over = true;
         }
