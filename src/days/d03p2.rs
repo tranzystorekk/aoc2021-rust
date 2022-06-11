@@ -46,7 +46,8 @@ fn main() {
         let mut most: Vec<_> = input.iter().map(Vec::as_slice).collect();
         let mut least: Vec<_> = input.iter().map(Vec::as_slice).collect();
 
-        let (mut m_found, mut l_found) = (false, false);
+        let mut m_found = false;
+        let mut l_found = false;
 
         for i in 0..len {
             if !m_found {
