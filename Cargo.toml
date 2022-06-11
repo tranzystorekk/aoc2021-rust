@@ -152,7 +152,7 @@ path = "src/days/d22p1.rs"
 
 [dependencies]
 anyhoo = { git = "https://github.com/tranzystorek-io/anyhoo", features = ["reexport"] }
-aoc-utils = "0.4.1"
+aoc-utils = "0.4.2"
 itertools = "0.10.1"
 ndarray = "0.15.4"
 scan_fmt = { version = "0.2.6", default-features = false, features = ["std"] }
