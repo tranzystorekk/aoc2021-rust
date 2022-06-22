@@ -10,23 +10,29 @@ fn parse_input() -> Vec<Vec<u8>> {
     input.lines().map_ok(String::into_bytes).try_collect()?
 }
 
-fn split<'a>(values: &[&'a [u8]], pos: usize) -> (Vec<&'a [u8]>, Vec<&'a [u8]>) {
+fn pick<'a>(values: &[&'a [u8]], pos: usize, most_common: bool) -> Vec<&'a [u8]> {
     let len = values.len();
     let half = len / 2;
 
     let n_ones = values.iter().filter(|val| val[pos] == b'1').count();
 
-    if len % 2 == 0 && n_ones == half {
-        return values.iter().partition(|v| v[pos] == b'1');
-    }
+    let searched_bit = if len % 2 == 0 && n_ones == half {
+        most_common
+    } else if most_common {
+        n_ones > half
+    } else {
+        n_ones < half
+    };
 
-    let most_common_bit = n_ones > half;
+    values
+        .iter()
+        .filter(|v| {
+            let bit = v[pos] == b'1';
 
-    values.iter().partition(|v| {
-        let bit = v[pos] == b'1';
-
-        bit == most_common_bit
-    })
+            bit == searched_bit
+        })
+        .copied()
+        .collect()
 }
 
 fn to_dec(bin: &[u8]) -> usize {
@@ -51,16 +57,14 @@ fn main() {
 
         for i in 0..len {
             if !m_found {
-                let (m, _) = split(&most, i);
-                most = m;
+                most = pick(&most, i, true);
 
                 if most.len() == 1 {
                     m_found = true;
                 }
             }
             if !l_found {
-                let (_, l) = split(&least, i);
-                least = l;
+                least = pick(&least, i, false);
 
                 if least.len() == 1 {
                     l_found = true;
